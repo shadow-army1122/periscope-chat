@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
 
 :root {
-  --bg-color: #f0f0f0;
+  --bg-color: #fdf2f8; /* very light pink */
   --text-color: #000000;
   --primary-color: #111111;
-  --secondary-color: #dc2626;
-  --accent-color: #3b82f6;
+  --secondary-color: #ec4899; /* hot pink */
+  --accent-color: #d946ef; /* fuchsia */
   --accent-magenta: #ff00ff;
   --border-color: #000000;
   --border-width: 4px;
@@ -22,8 +22,8 @@
 
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background-color: #fce7f3;
-  background-image: radial-gradient(#000 2px, transparent 2px);
+  background-color: var(--bg-color);
+  background-image: radial-gradient(var(--secondary-color) 2px, transparent 2px);
   background-size: 30px 30px;
   animation: bgPan 20s linear infinite;
   color: var(--text-color);
@@ -127,12 +127,12 @@ body {
 }
 
 .brutalist-button.primary {
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
   color: white;
 }
 
 .brutalist-button.primary:hover {
-  background-color: #ff2020;
+  background-color: var(--accent-magenta);
 }
 
 .brutalist-input {
