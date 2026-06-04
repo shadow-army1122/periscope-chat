@@ -163,10 +163,9 @@ function ChatApp() {
       
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
+      let buffer = '';
       let streamedResponse = '';
-      
-      // Clear the "thinking" message before streaming starts
-      setMessages(prev => prev.map(m => m.id === aiMessageId ? { ...m, content: '' } : m));
+      let firstChunkReceived = false;
 
       while (true) {
         const { done, value } = await reader.read();
@@ -186,6 +185,11 @@ function ChatApp() {
                   fetchSessions();
                 }
               } else if (data.type === 'chunk' || data.type === 'error') {
+                if (!firstChunkReceived) {
+                  firstChunkReceived = true;
+                  // Clear the "thinking" message when the first chunk arrives
+                  setMessages(prev => prev.map(m => m.id === aiMessageId ? { ...m, content: '' } : m));
+                }
                 streamedResponse += data.text;
                 setMessages(prev => prev.map(m => m.id === aiMessageId ? { ...m, content: streamedResponse } : m));
               }
