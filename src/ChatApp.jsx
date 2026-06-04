@@ -201,6 +201,10 @@ function ChatApp() {
           }
         }
       }
+
+      if (!firstChunkReceived) {
+        setMessages(prev => prev.map(m => m.id === aiMessageId ? { ...m, content: ' [Failed to generate response. Please try again or start a new chat.]' } : m));
+      }
     } catch (e) {
       setMessages(prev => prev.map(m => m.id === aiMessageId ? { ...m, content: 'SYSTEM FAILURE. OFFLINE.' } : m));
     }
