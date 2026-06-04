@@ -82,7 +82,7 @@ function Login() {
                 border: 'var(--border-width) solid var(--border-color)', 
                 width: '100%', 
                 maxWidth: '420px', 
-                boxShadow: 'var(--shadow-offset) var(--shadow-offset) 0px var(--secondary-color)',
+                boxShadow: 'var(--shadow-offset) var(--shadow-offset) 0px var(--border-color)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -90,7 +90,7 @@ function Login() {
             }}>
                 <img src="/logo2.png" alt="Periscope Logo" style={{ width: '80px', height: '80px', marginBottom: '1rem', border: 'var(--border-width) solid var(--border-color)', borderRadius: '50%', objectFit: 'cover', backgroundColor: 'white' }} />
                 
-                <h1 style={{ textAlign: 'center', marginBottom: '2rem', color: 'var(--primary-color)', fontSize: '2.5rem', fontWeight: '900', letterSpacing: '-1.5px', textShadow: '3px 3px 0px var(--accent-color)' }}>
+                <h1 style={{ textAlign: 'center', marginBottom: '2rem', color: 'var(--secondary-color)', fontSize: '2.5rem', fontWeight: '900', letterSpacing: '-1.5px', textShadow: '2px 2px 0px black' }}>
                     PERISCOPE
                 </h1>
                 
