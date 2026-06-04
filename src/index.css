@@ -54,7 +54,7 @@ body {
 .brutalist-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100dvh;
   width: 100vw;
   overflow: hidden;
 }
@@ -275,7 +275,7 @@ body {
   }
   
   .input-area {
-    padding: 1rem;
+    padding: 0.5rem;
     flex-direction: column;
     align-items: stretch;
   }
@@ -283,6 +283,11 @@ body {
   .brutalist-button {
     width: 100%;
     justify-content: center;
+    padding: 0.75rem;
+  }
+  
+  .brutalist-input {
+    padding: 0.75rem;
   }
   
   .input-wrapper {

@@ -26,6 +26,7 @@ function App() {
   ]);
   const [input, setInput] = useState('');
   const [files, setFiles] = useState([]);
+  const [activeImageContext, setActiveImageContext] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const messagesEndRef = useRef(null);
   
@@ -71,6 +72,7 @@ function App() {
     
     const processFiles = async () => {
       const base64Files = [];
+      let newImageContext = null;
       for (const f of files) {
         if (f.type === 'image') {
           const reader = new FileReader();
@@ -79,16 +81,24 @@ function App() {
             reader.readAsDataURL(f.file);
           });
           base64Files.push(base64);
+          newImageContext = { name: f.name, base64 };
         } else {
           const formData = new FormData();
           formData.append('document', f.file);
           await fetch('/api/periscope/upload', { method: 'POST', body: formData });
         }
       }
-      return base64Files;
+      if (newImageContext) {
+        setActiveImageContext(newImageContext);
+      }
+      return { base64Files, newImageContext };
     };
 
-    const imageAttachments = await processFiles();
+    const { newImageContext } = await processFiles();
+    
+    // Determine which image to send
+    const imageToSend = newImageContext ? newImageContext.base64 : (activeImageContext ? activeImageContext.base64 : null);
+    const imagesArray = imageToSend ? [imageToSend] : [];
     
     const aiMessageId = Date.now() + 1;
     setMessages(prev => [...prev, {
@@ -104,7 +114,7 @@ function App() {
         body: JSON.stringify({
           message: newMessage.content,
           history: messages.slice(-5),
-          images: imageAttachments
+          images: imagesArray
         })
       });
       const data = await res.json();
@@ -186,6 +196,19 @@ function App() {
                   <button type="button" onClick={() => removeFile(file.id)}>×</button>
                 </div>
               ))}
+            </div>
+          )}
+
+          {/* ACTIVE IMAGE CONTEXT PREVIEW */}
+          {activeImageContext && files.length === 0 && (
+            <div className="upload-preview" style={{ marginBottom: '0.5rem' }}>
+              <div className="upload-item" style={{ backgroundColor: '#fffde7', borderColor: '#eab308' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#854d0e' }}>
+                  <ImageIcon size={16} />
+                  <span>Looking at: {activeImageContext.name.substring(0, 15)}...</span>
+                </div>
+                <button type="button" style={{ background: '#eab308' }} onClick={() => setActiveImageContext(null)}>×</button>
+              </div>
             </div>
           )}
 
