@@ -1,13 +1,14 @@
 :root {
-  --bg-color: #f4f4f0;
-  --text-color: #111111;
+  --bg-color: #f0f0f0;
+  --text-color: #000000;
   --primary-color: #ff3b3b;
-  --secondary-color: #ffeb3b;
+  --secondary-color: #e0ff3b;
   --accent-color: #3b82f6;
-  --border-color: #111111;
+  --accent-magenta: #ff00ff;
+  --border-color: #000000;
   --border-width: 4px;
-  --shadow-color: #111111;
-  --shadow-offset: 6px;
+  --shadow-color: #000000;
+  --shadow-offset: 8px;
   --radius: 0px;
 }
 
@@ -18,11 +19,36 @@
 }
 
 body {
-  font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   background-color: var(--bg-color);
+  background-image: radial-gradient(#d5d5d5 1px, transparent 1px);
+  background-size: 20px 20px;
   color: var(--text-color);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+  border-left: var(--border-width) solid var(--border-color);
+}
+::-webkit-scrollbar-track {
+  background: white;
+  border-left: var(--border-width) solid var(--border-color);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent-magenta);
+  border: var(--border-width) solid var(--border-color);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+::-webkit-scrollbar-corner {
+  background: white;
+  border-left: var(--border-width) solid var(--border-color);
+  border-top: var(--border-width) solid var(--border-color);
 }
 
 .brutalist-container {
@@ -31,7 +57,6 @@ body {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background-color: var(--bg-color);
 }
 
 .brutalist-header {
@@ -41,20 +66,39 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+.core-indicator {
+  width: 40px;
+  height: 40px;
+  background-color: var(--border-color);
+  border-radius: 50%;
+  border: var(--border-width) solid white;
+  box-shadow: 4px 4px 0px 0px white;
+  animation: pulse-core 2s infinite alternate ease-in-out;
+}
+
+@keyframes pulse-core {
+  0% { transform: scale(1); box-shadow: 4px 4px 0px 0px white; }
+  100% { transform: scale(1.05); box-shadow: 6px 6px 0px 0px var(--accent-magenta); background-color: #222; }
 }
 
 .brutalist-header h1 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: -1px;
+  letter-spacing: -1.5px;
   margin: 0;
+  text-shadow: 2px 2px 0px white;
 }
 
 .brutalist-button {
   background-color: white;
   border: var(--border-width) solid var(--border-color);
   padding: 0.75rem 1.5rem;
+  font-family: inherit;
   font-weight: 800;
   font-size: 1rem;
   text-transform: uppercase;
@@ -70,6 +114,7 @@ body {
 .brutalist-button:hover {
   transform: translate(-2px, -2px);
   box-shadow: calc(var(--shadow-offset) + 2px) calc(var(--shadow-offset) + 2px) 0px 0px var(--shadow-color);
+  background-color: #f8f8f8;
 }
 
 .brutalist-button:active {
@@ -82,15 +127,21 @@ body {
   color: white;
 }
 
+.brutalist-button.primary:hover {
+  background-color: #ff2020;
+}
+
 .brutalist-input {
   width: 100%;
   border: var(--border-width) solid var(--border-color);
   padding: 1rem;
   font-size: 1.1rem;
   font-family: inherit;
-  font-weight: 600;
+  font-weight: 700;
   background-color: white;
   outline: none;
+  box-shadow: inset 4px 4px 0px rgba(0,0,0,0.05);
+  transition: background-color 0.2s;
 }
 
 .brutalist-input:focus {
@@ -104,16 +155,23 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  scroll-behavior: smooth;
 }
 
 .message-bubble {
   max-width: 80%;
-  padding: 1.25rem;
+  padding: 1.5rem;
   border: var(--border-width) solid var(--border-color);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1.1rem;
   position: relative;
   box-shadow: var(--shadow-offset) var(--shadow-offset) 0px 0px var(--shadow-color);
+  animation: slide-up 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slide-up {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
 }
 
 .message-bubble.ai {
@@ -125,6 +183,14 @@ body {
   align-self: flex-end;
   background-color: var(--accent-color);
   color: white;
+  border-color: var(--border-color);
+}
+
+.message-bubble p {
+  margin-bottom: 0.75rem;
+}
+.message-bubble p:last-child {
+  margin-bottom: 0;
 }
 
 .input-area {
@@ -134,70 +200,77 @@ body {
   display: flex;
   gap: 1rem;
   align-items: flex-end;
-}
-
-.file-upload-zone {
-  border: var(--border-width) dashed var(--border-color);
-  padding: 2rem;
-  text-align: center;
-  background-color: #e0f2fe;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 1.2rem;
-  transition: background-color 0.2s ease;
-}
-
-.file-upload-zone:hover {
-  background-color: #bae6fd;
+  z-index: 10;
+  position: relative;
 }
 
 .upload-preview {
   display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
 .upload-item {
   position: relative;
-  border: 2px solid var(--border-color);
-  padding: 0.5rem;
+  border: var(--border-width) solid var(--border-color);
+  padding: 0.5rem 1rem;
   background: var(--secondary-color);
-  font-weight: bold;
+  font-weight: 800;
   font-size: 0.9rem;
+  box-shadow: 4px 4px 0px var(--shadow-color);
 }
 
 .upload-item button {
   position: absolute;
-  top: -10px;
-  right: -10px;
+  top: -12px;
+  right: -12px;
   background: var(--primary-color);
   color: white;
-  border: 2px solid var(--border-color);
+  border: var(--border-width) solid var(--border-color);
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 900;
+  transition: transform 0.1s;
+}
+.upload-item button:hover {
+  transform: scale(1.1);
 }
 
 /* Mobile specific styling */
 @media (max-width: 768px) {
+  :root {
+    --shadow-offset: 4px;
+    --border-width: 3px;
+  }
+  
+  .brutalist-header {
+    padding: 1rem;
+  }
+  
   .brutalist-header h1 {
     font-size: 1.5rem;
   }
   
+  .core-indicator {
+    width: 30px;
+    height: 30px;
+  }
+  
   .chat-area {
     padding: 1rem;
+    gap: 1rem;
   }
   
   .message-bubble {
     max-width: 95%;
     padding: 1rem;
     font-size: 1rem;
-    box-shadow: 4px 4px 0px 0px var(--shadow-color);
   }
   
   .input-area {
@@ -209,7 +282,6 @@ body {
   .brutalist-button {
     width: 100%;
     justify-content: center;
-    box-shadow: 4px 4px 0px 0px var(--shadow-color);
   }
   
   .input-wrapper {

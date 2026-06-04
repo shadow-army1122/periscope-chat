@@ -3,6 +3,23 @@ import ReactMarkdown from 'react-markdown';
 import { Send, Paperclip, Image as ImageIcon, FileText, Trash2, Menu, X } from 'lucide-react';
 import './index.css';
 
+const TypewriterText = ({ text }) => {
+  const [displayedText, setDisplayedText] = useState('');
+  
+  useEffect(() => {
+    setDisplayedText('');
+    let i = 0;
+    const interval = setInterval(() => {
+      setDisplayedText(text.slice(0, i));
+      i++;
+      if (i > text.length) clearInterval(interval);
+    }, 20); // typing speed
+    return () => clearInterval(interval);
+  }, [text]);
+
+  return <ReactMarkdown>{displayedText}</ReactMarkdown>;
+};
+
 function App() {
   const [messages, setMessages] = useState([
     { id: 1, role: 'ai', content: 'HELLO. I AM PERISCOPE CENTRAL NEURAL CORE. WHAT IS YOUR DIRECTIVE?' }
@@ -65,7 +82,7 @@ function App() {
         } else {
           const formData = new FormData();
           formData.append('document', f.file);
-          await fetch('http://localhost:5000/api/periscope/upload', { method: 'POST', body: formData });
+          await fetch('/api/periscope/upload', { method: 'POST', body: formData });
         }
       }
       return base64Files;
@@ -81,7 +98,7 @@ function App() {
     }]);
 
     try {
-      const res = await fetch('http://localhost:5000/api/periscope/chat', {
+      const res = await fetch('/api/periscope/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -102,7 +119,7 @@ function App() {
       {/* HEADER */}
       <header className="brutalist-header">
         <div className="flex items-center gap-4">
-          <div style={{ width: '40px', height: '40px', backgroundColor: 'var(--border-color)', borderRadius: '50%', border: '4px solid white', boxShadow: '4px 4px 0px 0px white' }}></div>
+          <div className="core-indicator"></div>
           <h1>PERISCOPE OS</h1>
         </div>
         
@@ -143,7 +160,11 @@ function App() {
                 ))}
               </div>
             )}
-            <ReactMarkdown>{msg.content}</ReactMarkdown>
+            {msg.role === 'ai' ? (
+              <TypewriterText text={msg.content} />
+            ) : (
+              <ReactMarkdown>{msg.content}</ReactMarkdown>
+            )}
           </div>
         ))}
         <div ref={messagesEndRef} />
