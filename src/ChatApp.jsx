@@ -15,7 +15,7 @@ function ChatApp() {
   const [currentSessionId, setCurrentSessionId] = useState(null);
   
   const [messages, setMessages] = useState([
-    { id: 1, role: 'assistant', content: 'Hi there! 👋 I am Periscope AI. I am so happy you are here! How can I help you today?' }
+    { id: 1, role: 'ai', content: 'Hi there! 👋 I am Periscope AI. I am so happy you are here! How can I help you today?' }
   ]);
   const [input, setInput] = useState('');
   const [files, setFiles] = useState([]);
@@ -68,7 +68,7 @@ function ChatApp() {
         imageUrl: m.image_url
       }));
       setMessages(formattedMsgs.length > 0 ? formattedMsgs : [
-        { id: 1, role: 'assistant', content: 'Hi there! 👋 I am Periscope AI. I am so happy you are here! How can I help you today?' }
+        { id: 1, role: 'ai', content: 'Hi there! 👋 I am Periscope AI. I am so happy you are here! How can I help you today?' }
       ]);
       setCurrentSessionId(sessionId);
       setActiveImageContext(null);
@@ -79,7 +79,7 @@ function ChatApp() {
   const startNewChat = () => {
     setCurrentSessionId(null);
     setMessages([
-        { id: 1, role: 'assistant', content: 'Hi there! 👋 I am Periscope AI. I am so happy you are here! How can I help you today?' }
+        { id: 1, role: 'ai', content: 'Hi there! 👋 I am Periscope AI. I am so happy you are here! How can I help you today?' }
     ]);
     setActiveImageContext(null);
     setIsMobileMenuOpen(false);
@@ -142,7 +142,7 @@ function ChatApp() {
     const aiMessageId = Date.now() + 1;
     setMessages(prev => [...prev, {
       id: aiMessageId,
-      role: 'assistant',
+      role: 'ai',
       content: 'Let me think about that for a moment... 🤔'
     }]);
 
@@ -259,7 +259,7 @@ function ChatApp() {
                 <img src={msg.imageUrl} alt="Context" style={{ maxWidth: '200px', border: '2px solid white' }} />
               </div>
             )}
-            {msg.role === 'assistant' ? (
+            {msg.role === 'ai' ? (
               <ReactMarkdown>{msg.content}</ReactMarkdown>
             ) : (
               <ReactMarkdown>{msg.content}</ReactMarkdown>
