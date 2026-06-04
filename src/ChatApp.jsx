@@ -57,7 +57,7 @@ function ChatApp() {
 
   const fetchSessions = async () => {
     const token = localStorage.getItem('periscope_token');
-    const res = await fetch('/api/periscope-app/chat/sessions', {
+    const res = await fetch('/api/periscope-app/sessions', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (res.ok) {
@@ -71,7 +71,7 @@ function ChatApp() {
 
   const loadSession = async (sessionId) => {
     const token = localStorage.getItem('periscope_token');
-    const res = await fetch(`/api/periscope-app/chat/sessions/${sessionId}`, {
+    const res = await fetch(`/api/periscope-app/sessions/${sessionId}`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (res.ok) {
@@ -163,7 +163,7 @@ function ChatApp() {
 
     try {
       const token = localStorage.getItem('periscope_token');
-      const res = await fetch('/api/periscope-app/chat/chat', {
+      const res = await fetch('/api/periscope-app/chat', {
         method: 'POST',
         headers: { 
             'Content-Type': 'application/json',
