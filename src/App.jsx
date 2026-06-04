@@ -119,7 +119,7 @@ function App() {
       {/* HEADER */}
       <header className="brutalist-header">
         <div className="flex items-center gap-4">
-          <div className="core-indicator"></div>
+          <img src="/logo.png" alt="Periscope OS" className="core-indicator-img" />
           <h1>PERISCOPE OS</h1>
         </div>
         
