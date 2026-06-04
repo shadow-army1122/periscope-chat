@@ -209,11 +209,11 @@ function ChatApp() {
         </div>
         
         <button 
-          className="brutalist-button" 
-          style={{ display: window.innerWidth > 768 ? 'none' : 'flex' }}
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="brutalist-button mobile-menu-btn" 
+          style={{ display: window.innerWidth > 768 ? 'none' : 'flex', padding: '0.75rem' }}
+          onClick={() => setIsMobileMenuOpen(true)}
         >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          <Menu size={24} />
         </button>
         
         <div style={{ display: window.innerWidth > 768 ? 'flex' : 'none', gap: '1rem', alignItems: 'center' }}>
@@ -231,21 +231,25 @@ function ChatApp() {
         </div>
       </header>
       
-      {isMobileMenuOpen && (
-        <div style={{ position: 'absolute', top: '88px', left: 0, width: '100%', backgroundColor: 'var(--secondary-color)', borderBottom: 'var(--border-width) solid var(--border-color)', zIndex: 50, display: 'flex', flexDirection: 'column', gap: '0.5rem', padding: '1rem' }}>
-          <button className="brutalist-button w-full" onClick={startNewChat}>NEW CHAT</button>
-          <select className="brutalist-input w-full" value={currentSessionId || ''} onChange={(e) => loadSession(e.target.value)}>
-              <option value="" disabled>History...</option>
-              {sessions.map(s => (
-                  <option key={s.id} value={s.id}>Session {new Date(s.created_at).toLocaleDateString()}</option>
-              ))}
-          </select>
-          {user?.role === 'admin' && (
-              <button className="brutalist-button w-full" onClick={() => navigate('/admin')}><Settings size={20} /> ADMIN</button>
-          )}
-          <button className="brutalist-button primary w-full" onClick={logout}>LOGOUT</button>
+      <div className={`mobile-drawer-overlay ${isMobileMenuOpen ? 'open' : ''}`} onClick={() => setIsMobileMenuOpen(false)}></div>
+      <div className={`mobile-drawer ${isMobileMenuOpen ? 'open' : ''}`}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: '900' }}>MENU</h2>
+            <button className="brutalist-button" onClick={() => setIsMobileMenuOpen(false)} style={{ padding: '0.5rem' }}><X size={24} /></button>
         </div>
-      )}
+        <button className="brutalist-button" style={{ width: '100%', justifyContent: 'center' }} onClick={startNewChat}>NEW CHAT</button>
+        <select className="brutalist-input" style={{ width: '100%' }} value={currentSessionId || ''} onChange={(e) => loadSession(e.target.value)}>
+            <option value="" disabled>History...</option>
+            {sessions.map(s => (
+                <option key={s.id} value={s.id}>Session {new Date(s.created_at).toLocaleDateString()}</option>
+            ))}
+        </select>
+        {user?.role === 'admin' && (
+            <button className="brutalist-button" style={{ width: '100%', justifyContent: 'center' }} onClick={() => navigate('/admin')}><Settings size={20} /> ADMIN</button>
+        )}
+        <div style={{ flex: 1 }}></div>
+        <button className="brutalist-button primary" style={{ width: '100%', justifyContent: 'center' }} onClick={logout}><LogOut size={20} /> LOGOUT</button>
+      </div>
 
       <main className="chat-area">
         {messages.map(msg => (

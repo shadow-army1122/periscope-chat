@@ -254,16 +254,19 @@ body {
   }
   
   .brutalist-header {
-    padding: 1rem;
+    padding: 0.75rem 1rem;
+    backdrop-filter: blur(8px);
+    background-color: rgba(220, 38, 38, 0.95); /* Semi-transparent secondary-color for blur */
   }
   
   .brutalist-header h1 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
   }
   
-  .core-indicator {
-    width: 30px;
-    height: 30px;
+  .core-indicator-img {
+    width: 36px;
+    height: 36px;
+    border-width: 3px;
   }
   
   .chat-area {
@@ -272,20 +275,17 @@ body {
   }
   
   .message-bubble {
-    max-width: 95%;
+    max-width: 90%;
     padding: 1rem;
     font-size: 1rem;
   }
   
   .input-area {
     padding: 0.5rem;
-    flex-direction: column;
-    align-items: stretch;
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
   }
   
   .brutalist-button {
-    width: 100%;
-    justify-content: center;
     padding: 0.75rem;
   }
   
@@ -295,7 +295,60 @@ body {
   
   .input-wrapper {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 0.5rem;
+    align-items: center;
+  }
+  
+  .input-wrapper .brutalist-button {
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  .input-wrapper .brutalist-input {
+    flex-grow: 1;
+    min-width: 0;
+  }
+  
+  /* Slide-out Drawer Classes */
+  .mobile-drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    background: rgba(0,0,0,0.5);
+    z-index: 40;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  
+  .mobile-drawer-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 80vw;
+    max-width: 300px;
+    height: 100dvh;
+    background-color: white;
+    border-left: var(--border-width) solid var(--border-color);
+    box-shadow: -8px 0px 0px rgba(0,0,0,1);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+    gap: 1rem;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  .mobile-drawer.open {
+    transform: translateX(0);
   }
 }
