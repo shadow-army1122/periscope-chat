@@ -5,22 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import './index.css';
 
-const TypewriterText = ({ text }) => {
-  const [displayedText, setDisplayedText] = useState('');
-  
-  useEffect(() => {
-    setDisplayedText('');
-    let i = 0;
-    const interval = setInterval(() => {
-      setDisplayedText(text.slice(0, i));
-      i++;
-      if (i > text.length) clearInterval(interval);
-    }, 20);
-    return () => clearInterval(interval);
-  }, [text]);
 
-  return <ReactMarkdown>{displayedText}</ReactMarkdown>;
-};
 
 function ChatApp() {
   const { user, logout } = useAuth();
@@ -175,14 +160,41 @@ function ChatApp() {
           images: imagesArray
         })
       });
-      const data = await res.json();
       
-      if (!currentSessionId && data.sessionId) {
-          setCurrentSessionId(data.sessionId);
-          fetchSessions();
-      }
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let streamedResponse = '';
+      
+      // Clear the "thinking" message before streaming starts
+      setMessages(prev => prev.map(m => m.id === aiMessageId ? { ...m, content: '' } : m));
 
-      setMessages(prev => prev.map(m => m.id === aiMessageId ? { ...m, content: data.response || 'ERROR.' } : m));
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split('\n').filter(line => line.trim() !== '');
+        
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(line.slice(6));
+              
+              if (data.type === 'session') {
+                if (!currentSessionId && data.sessionId) {
+                  setCurrentSessionId(data.sessionId);
+                  fetchSessions();
+                }
+              } else if (data.type === 'chunk' || data.type === 'error') {
+                streamedResponse += data.text;
+                setMessages(prev => prev.map(m => m.id === aiMessageId ? { ...m, content: streamedResponse } : m));
+              }
+            } catch (err) {
+              console.error('Error parsing SSE JSON:', err, line);
+            }
+          }
+        }
+      }
     } catch (e) {
       setMessages(prev => prev.map(m => m.id === aiMessageId ? { ...m, content: 'SYSTEM FAILURE. OFFLINE.' } : m));
     }
@@ -244,7 +256,7 @@ function ChatApp() {
               </div>
             )}
             {msg.role === 'assistant' ? (
-              <TypewriterText text={msg.content} />
+              <ReactMarkdown>{msg.content}</ReactMarkdown>
             ) : (
               <ReactMarkdown>{msg.content}</ReactMarkdown>
             )}
