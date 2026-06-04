@@ -28,7 +28,7 @@ function ChatApp() {
     if (!user) {
       navigate('/login');
     } else {
-      fetchSessions();
+      fetchSessions(true);
     }
   }, [user, navigate]);
 
@@ -40,7 +40,7 @@ function ChatApp() {
     scrollToBottom();
   }, [messages]);
 
-  const fetchSessions = async () => {
+  const fetchSessions = async (shouldLoadFirst = false) => {
     const token = localStorage.getItem('periscope_token');
     const res = await fetch('/api/periscope-app/sessions', {
       headers: { 'Authorization': `Bearer ${token}` }
@@ -48,7 +48,7 @@ function ChatApp() {
     if (res.ok) {
       const data = await res.json();
       setSessions(data);
-      if (data.length > 0 && !currentSessionId) {
+      if (shouldLoadFirst && data.length > 0 && !currentSessionId) {
         loadSession(data[0].id);
       }
     }
@@ -182,7 +182,7 @@ function ChatApp() {
               if (data.type === 'session') {
                 if (!currentSessionId && data.sessionId) {
                   setCurrentSessionId(data.sessionId);
-                  fetchSessions();
+                  fetchSessions(false);
                 }
               } else if (data.type === 'chunk' || data.type === 'error') {
                 if (!firstChunkReceived) {
