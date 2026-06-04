@@ -192,8 +192,8 @@ function ChatApp() {
     <div className="brutalist-container">
       <header className="brutalist-header">
         <div className="flex items-center gap-4">
-          <img src="/logo.png" alt="Periscope OS" className="core-indicator-img" />
-          <h1>PERISCOPE OS</h1>
+          <img src="/logo2.png" alt="Periscope" className="core-indicator-img" />
+          <h1>PERISCOPE</h1>
         </div>
         
         <button 
