@@ -75,18 +75,30 @@ function Login() {
     };
 
     return (
-        <div className="brutalist-container" style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'var(--primary-color)' }}>
-            <div style={{ backgroundColor: 'white', padding: '2rem', border: 'var(--border-width) solid var(--border-color)', width: '90%', maxWidth: '400px', boxShadow: 'var(--shadow-offset) var(--shadow-offset) 0px var(--border-color)' }}>
-                <h1 style={{ textAlign: 'center', marginBottom: '1.5rem', color: 'var(--secondary-color)' }}>
-                    PERISCOPE OS
+        <div className="brutalist-container" style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'var(--primary-color)', padding: '1rem' }}>
+            <div style={{ 
+                backgroundColor: 'white', 
+                padding: '2.5rem 2rem', 
+                border: 'var(--border-width) solid var(--border-color)', 
+                width: '100%', 
+                maxWidth: '420px', 
+                boxShadow: 'var(--shadow-offset) var(--shadow-offset) 0px var(--border-color)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+            }}>
+                <img src="/logo.png" alt="Periscope Logo" style={{ width: '80px', height: '80px', marginBottom: '1rem', border: 'var(--border-width) solid var(--border-color)', borderRadius: '50%', objectFit: 'cover' }} />
+                
+                <h1 style={{ textAlign: 'center', marginBottom: '2rem', color: 'var(--secondary-color)', fontSize: '2rem', fontWeight: '900', letterSpacing: '-1px' }}>
+                    PERISCOPE
                 </h1>
                 
-                {error && <div style={{ backgroundColor: '#fee2e2', color: '#dc2626', padding: '0.5rem', border: '2px solid #dc2626', marginBottom: '1rem', fontWeight: 'bold' }}>{error}</div>}
+                {error && <div style={{ backgroundColor: '#fee2e2', color: '#dc2626', padding: '1rem', border: '2px solid #dc2626', marginBottom: '1.5rem', fontWeight: 'bold', width: '100%', textAlign: 'center' }}>{error}</div>}
                 
                 {!requiresReset ? (
-                    <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                        <div>
-                            <label style={{ fontWeight: 'bold' }}>USERNAME</label>
+                    <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', width: '100%' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                            <label style={{ fontWeight: '800', fontSize: '0.9rem' }}>USERNAME</label>
                             <input 
                                 type="text" 
                                 className="brutalist-input" 
@@ -95,8 +107,8 @@ function Login() {
                                 required
                             />
                         </div>
-                        <div>
-                            <label style={{ fontWeight: 'bold' }}>PASSWORD</label>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                            <label style={{ fontWeight: '800', fontSize: '0.9rem' }}>PASSWORD</label>
                             <input 
                                 type="password" 
                                 className="brutalist-input" 
@@ -105,17 +117,17 @@ function Login() {
                                 required
                             />
                         </div>
-                        <button type="submit" className="brutalist-button primary" style={{ marginTop: '1rem' }} disabled={loading}>
+                        <button type="submit" className="brutalist-button primary" style={{ marginTop: '1.5rem', width: '100%', justifyContent: 'center', padding: '1rem' }} disabled={loading}>
                             {loading ? 'AUTHENTICATING...' : 'ACCESS SYSTEM'}
                         </button>
                     </form>
                 ) : (
-                    <form onSubmit={handleReset} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                        <div style={{ backgroundColor: '#fef3c7', padding: '0.5rem', border: '2px solid #d97706', marginBottom: '1rem', fontWeight: 'bold' }}>
+                    <form onSubmit={handleReset} style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', width: '100%' }}>
+                        <div style={{ backgroundColor: '#fef3c7', padding: '1rem', border: '2px solid #d97706', marginBottom: '1rem', fontWeight: 'bold', textAlign: 'center' }}>
                             SECURITY DIRECTIVE: First login requires a new password.
                         </div>
-                        <div>
-                            <label style={{ fontWeight: 'bold' }}>NEW PASSWORD</label>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                            <label style={{ fontWeight: '800', fontSize: '0.9rem' }}>NEW PASSWORD</label>
                             <input 
                                 type="password" 
                                 className="brutalist-input" 
@@ -124,8 +136,8 @@ function Login() {
                                 required
                             />
                         </div>
-                        <div>
-                            <label style={{ fontWeight: 'bold' }}>CONFIRM PASSWORD</label>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                            <label style={{ fontWeight: '800', fontSize: '0.9rem' }}>CONFIRM PASSWORD</label>
                             <input 
                                 type="password" 
                                 className="brutalist-input" 
@@ -134,7 +146,7 @@ function Login() {
                                 required
                             />
                         </div>
-                        <button type="submit" className="brutalist-button primary" style={{ marginTop: '1rem' }} disabled={loading}>
+                        <button type="submit" className="brutalist-button primary" style={{ marginTop: '1.5rem', width: '100%', justifyContent: 'center', padding: '1rem' }} disabled={loading}>
                             {loading ? 'UPDATING...' : 'UPDATE CREDENTIALS'}
                         </button>
                     </form>

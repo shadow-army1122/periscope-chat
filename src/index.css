@@ -18,8 +18,10 @@
   padding: 0;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
+
 body {
-  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: var(--bg-color);
   background-image: radial-gradient(#d5d5d5 1px, transparent 1px);
   background-size: 20px 20px;
