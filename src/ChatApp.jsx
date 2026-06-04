@@ -107,6 +107,7 @@ function ChatApp() {
     
     const processFiles = async () => {
       let newImageContext = null;
+      let newDocuments = [];
       for (const f of files) {
         if (f.type === 'image') {
           const reader = new FileReader();
@@ -115,17 +116,25 @@ function ChatApp() {
             reader.readAsDataURL(f.file);
           });
           newImageContext = { name: f.name, base64 };
+        } else if (f.type === 'document') {
+          const reader = new FileReader();
+          const base64 = await new Promise((resolve) => {
+            reader.onload = () => resolve(reader.result);
+            reader.readAsDataURL(f.file);
+          });
+          newDocuments.push({ name: f.name, type: f.file.type || 'text/plain', data: base64 });
         }
       }
       if (newImageContext) {
         setActiveImageContext(newImageContext);
       }
-      return newImageContext;
+      return { newImageContext, newDocuments };
     };
 
-    const newImageContext = await processFiles();
+    const { newImageContext, newDocuments } = await processFiles();
     const imageToSend = newImageContext ? newImageContext.base64 : (activeImageContext ? activeImageContext.base64 : null);
     const imagesArray = imageToSend ? [imageToSend] : [];
+    const documentsArray = newDocuments;
 
     const newMessage = {
       id: Date.now(),
@@ -157,7 +166,8 @@ function ChatApp() {
         body: JSON.stringify({
           message: currentInput,
           sessionId: currentSessionId,
-          images: imagesArray
+          images: imagesArray,
+          documents: documentsArray
         })
       });
       
@@ -311,7 +321,7 @@ function ChatApp() {
           <div style={{ display: 'flex', gap: '1rem', width: '100%' }} className="input-wrapper">
             <label className="brutalist-button" style={{ cursor: 'pointer', padding: '1rem', display: 'flex', justifyContent: 'center' }}>
               <Paperclip size={24} />
-              <input type="file" multiple onChange={handleFileChange} style={{ display: 'none' }} />
+              <input type="file" multiple accept="image/*,.pdf,.doc,.docx,.txt" onChange={handleFileChange} style={{ display: 'none' }} />
             </label>
             <input 
               type="text" 
