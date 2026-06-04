@@ -2,7 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './AuthContext';
 import Login from './Login';
+import ModeSelect from './ModeSelect';
 import ChatApp from './ChatApp';
+import VoiceApp from './VoiceApp';
 import AdminPanel from './AdminPanel';
 
 // Protected Route Component
@@ -16,7 +18,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
     }
 
     if (adminOnly && user.role !== 'admin') {
-        return <Navigate to="/chat" />;
+        return <Navigate to="/home" />;
     }
 
     return children;
@@ -29,9 +31,21 @@ function App() {
                 <Routes>
                     <Route path="/login" element={<Login />} />
                     
+                    <Route path="/home" element={
+                        <ProtectedRoute>
+                            <ModeSelect />
+                        </ProtectedRoute>
+                    } />
+                    
                     <Route path="/chat" element={
                         <ProtectedRoute>
                             <ChatApp />
+                        </ProtectedRoute>
+                    } />
+                    
+                    <Route path="/voice" element={
+                        <ProtectedRoute>
+                            <VoiceApp />
                         </ProtectedRoute>
                     } />
                     
@@ -42,7 +56,7 @@ function App() {
                     } />
                     
                     {/* Default route */}
-                    <Route path="*" element={<Navigate to="/chat" />} />
+                    <Route path="*" element={<Navigate to="/home" />} />
                 </Routes>
             </Router>
         </AuthProvider>

@@ -37,7 +37,7 @@ function Login() {
                 setRequiresReset(true);
             } else {
                 login(data.user, data.token);
-                navigate('/chat');
+                navigate('/home');
             }
         } catch (err) {
             setError(err.message);
@@ -66,7 +66,7 @@ function Login() {
             if (!res.ok) throw new Error(data.error || 'Reset failed');
 
             login(data.user, data.token);
-            navigate('/chat');
+            navigate('/home');
         } catch (err) {
             setError(err.message);
         } finally {

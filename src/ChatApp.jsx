@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { Send, Paperclip, Image as ImageIcon, FileText, Menu, X, LogOut, Settings } from 'lucide-react';
+import { Send, Paperclip, Image as ImageIcon, FileText, Menu, X, LogOut, Settings, Mic } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import './index.css';
@@ -237,6 +237,7 @@ function ChatApp() {
         </button>
         
         <div style={{ display: window.innerWidth > 768 ? 'flex' : 'none', gap: '1rem', alignItems: 'center' }}>
+          <button className="brutalist-button" onClick={() => navigate('/voice')}><Mic size={20} /> VOICE CHAT</button>
           <button className="brutalist-button" onClick={startNewChat}>NEW CHAT</button>
           <select className="brutalist-input" style={{ width: '150px' }} value={currentSessionId || ''} onChange={(e) => loadSession(e.target.value)}>
               <option value="" disabled>History...</option>
@@ -257,6 +258,7 @@ function ChatApp() {
             <h2 style={{ fontSize: '1.5rem', fontWeight: '900' }}>MENU</h2>
             <button className="brutalist-button" onClick={() => setIsMobileMenuOpen(false)} style={{ padding: '0.5rem' }}><X size={24} /></button>
         </div>
+        <button className="brutalist-button" style={{ width: '100%', justifyContent: 'center' }} onClick={() => navigate('/voice')}><Mic size={20} /> VOICE CHAT</button>
         <button className="brutalist-button" style={{ width: '100%', justifyContent: 'center' }} onClick={startNewChat}>NEW CHAT</button>
         <select className="brutalist-input" style={{ width: '100%' }} value={currentSessionId || ''} onChange={(e) => loadSession(e.target.value)}>
             <option value="" disabled>History...</option>
