@@ -75,41 +75,22 @@ function Login() {
     };
 
     return (
-        <div style={{ 
-            display: 'flex',
-            justifyContent: 'center', 
-            alignItems: 'center', 
-            minHeight: '100dvh',
-            width: '100vw',
-            background: 'linear-gradient(-45deg, #0f172a, #1e1b4b, #312e81, #1e1b4b)',
-            backgroundSize: '400% 400%',
-            animation: 'gradientBG 15s ease infinite'
-        }}>
-            <style>{`
-                @keyframes gradientBG {
-                    0% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                    100% { background-position: 0% 50%; }
-                }
-            `}</style>
-            
+        <div className="brutalist-container" style={{ justifyContent: 'center', alignItems: 'center', padding: '1rem' }}>
             <div style={{ 
-                backgroundColor: 'rgba(255, 255, 255, 0.05)', 
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                padding: '3rem 2.5rem', 
-                border: '1px solid rgba(255, 255, 255, 0.1)', 
-                borderRadius: '24px',
-                width: '90%', 
+                backgroundColor: 'white', 
+                padding: '2.5rem 2rem', 
+                border: 'var(--border-width) solid var(--border-color)', 
+                width: '100%', 
                 maxWidth: '420px', 
-                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+                boxShadow: 'var(--shadow-offset) var(--shadow-offset) 0px var(--border-color)',
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center'
+                alignItems: 'center',
+                animation: 'comicFloat 4s ease-in-out infinite'
             }}>
-                <img src="/logo2.png" alt="Periscope Logo" style={{ width: '90px', height: '90px', marginBottom: '1.5rem', border: '2px solid rgba(255,255,255,0.2)', borderRadius: '50%', objectFit: 'cover', boxShadow: '0 0 20px rgba(255,255,255,0.1)' }} />
+                <img src="/logo2.png" alt="Periscope Logo" style={{ width: '80px', height: '80px', marginBottom: '1rem', border: 'var(--border-width) solid var(--border-color)', borderRadius: '50%', objectFit: 'cover', backgroundColor: 'white' }} />
                 
-                <h1 style={{ textAlign: 'center', marginBottom: '2.5rem', color: '#ffffff', fontSize: '2.2rem', fontWeight: '900', letterSpacing: '-1px' }}>
+                <h1 style={{ textAlign: 'center', marginBottom: '2rem', color: 'var(--secondary-color)', fontSize: '2.5rem', fontWeight: '900', letterSpacing: '-1.5px', textShadow: '2px 2px 0px black' }}>
                     PERISCOPE
                 </h1>
                 
@@ -118,46 +99,26 @@ function Login() {
                 {!requiresReset ? (
                     <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', width: '100%' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            <label style={{ fontWeight: '600', fontSize: '0.9rem', color: '#94a3b8', letterSpacing: '1px' }}>USERNAME</label>
+                            <label style={{ fontWeight: '900', fontSize: '1rem', textTransform: 'uppercase' }}>USERNAME</label>
                             <input 
                                 type="text" 
-                                style={{
-                                    width: '100%', padding: '1rem', fontSize: '1.1rem', backgroundColor: 'rgba(255,255,255,0.05)',
-                                    border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: 'white', outline: 'none', transition: 'all 0.3s'
-                                }}
-                                onFocus={(e) => e.target.style.borderColor = '#818cf8'}
-                                onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
+                                className="brutalist-input" 
                                 value={username}
                                 onChange={e => setUsername(e.target.value)}
                                 required
                             />
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            <label style={{ fontWeight: '600', fontSize: '0.9rem', color: '#94a3b8', letterSpacing: '1px' }}>PASSWORD</label>
+                            <label style={{ fontWeight: '900', fontSize: '1rem', textTransform: 'uppercase' }}>PASSWORD</label>
                             <input 
                                 type="password" 
-                                style={{
-                                    width: '100%', padding: '1rem', fontSize: '1.1rem', backgroundColor: 'rgba(255,255,255,0.05)',
-                                    border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: 'white', outline: 'none', transition: 'all 0.3s'
-                                }}
-                                onFocus={(e) => e.target.style.borderColor = '#818cf8'}
-                                onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
+                                className="brutalist-input" 
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
                                 required
                             />
                         </div>
-                        <button 
-                            type="submit" 
-                            style={{ 
-                                marginTop: '1.5rem', width: '100%', padding: '1.1rem', background: 'linear-gradient(to right, #4f46e5, #6366f1)', 
-                                color: 'white', border: 'none', borderRadius: '12px', fontSize: '1.1rem', fontWeight: 'bold', 
-                                cursor: 'pointer', transition: 'transform 0.2s', boxShadow: '0 4px 15px rgba(79, 70, 229, 0.4)'
-                            }}
-                            onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
-                            onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
-                            disabled={loading}
-                        >
+                        <button type="submit" className="brutalist-button primary" style={{ marginTop: '1.5rem', width: '100%', justifyContent: 'center', padding: '1rem' }} disabled={loading}>
                             {loading ? 'AUTHENTICATING...' : 'ACCESS SYSTEM'}
                         </button>
                     </form>
@@ -167,46 +128,26 @@ function Login() {
                             SECURITY DIRECTIVE: First login requires a new password.
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            <label style={{ fontWeight: '600', fontSize: '0.9rem', color: '#94a3b8', letterSpacing: '1px' }}>NEW PASSWORD</label>
+                            <label style={{ fontWeight: '900', fontSize: '1rem', textTransform: 'uppercase' }}>NEW PASSWORD</label>
                             <input 
                                 type="password" 
-                                style={{
-                                    width: '100%', padding: '1rem', fontSize: '1.1rem', backgroundColor: 'rgba(255,255,255,0.05)',
-                                    border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: 'white', outline: 'none', transition: 'all 0.3s'
-                                }}
-                                onFocus={(e) => e.target.style.borderColor = '#818cf8'}
-                                onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
+                                className="brutalist-input" 
                                 value={newPassword}
                                 onChange={e => setNewPassword(e.target.value)}
                                 required
                             />
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            <label style={{ fontWeight: '600', fontSize: '0.9rem', color: '#94a3b8', letterSpacing: '1px' }}>CONFIRM PASSWORD</label>
+                            <label style={{ fontWeight: '900', fontSize: '1rem', textTransform: 'uppercase' }}>CONFIRM PASSWORD</label>
                             <input 
                                 type="password" 
-                                style={{
-                                    width: '100%', padding: '1rem', fontSize: '1.1rem', backgroundColor: 'rgba(255,255,255,0.05)',
-                                    border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: 'white', outline: 'none', transition: 'all 0.3s'
-                                }}
-                                onFocus={(e) => e.target.style.borderColor = '#818cf8'}
-                                onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
+                                className="brutalist-input" 
                                 value={confirmPassword}
                                 onChange={e => setConfirmPassword(e.target.value)}
                                 required
                             />
                         </div>
-                        <button 
-                            type="submit" 
-                            style={{ 
-                                marginTop: '1.5rem', width: '100%', padding: '1.1rem', background: 'linear-gradient(to right, #4f46e5, #6366f1)', 
-                                color: 'white', border: 'none', borderRadius: '12px', fontSize: '1.1rem', fontWeight: 'bold', 
-                                cursor: 'pointer', transition: 'transform 0.2s', boxShadow: '0 4px 15px rgba(79, 70, 229, 0.4)'
-                            }}
-                            onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
-                            onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
-                            disabled={loading}
-                        >
+                        <button type="submit" className="brutalist-button primary" style={{ marginTop: '1.5rem', width: '100%', justifyContent: 'center', padding: '1rem' }} disabled={loading}>
                             {loading ? 'UPDATING...' : 'UPDATE CREDENTIALS'}
                         </button>
                     </form>
