@@ -246,6 +246,11 @@ body {
   transform: scale(1.1);
 }
 
+/* Hide mobile drawer on desktop */
+.mobile-drawer-overlay, .mobile-drawer {
+  display: none;
+}
+
 /* Mobile specific styling */
 @media (max-width: 768px) {
   :root {
@@ -312,6 +317,7 @@ body {
   
   /* Slide-out Drawer Classes */
   .mobile-drawer-overlay {
+    display: block;
     position: fixed;
     top: 0;
     left: 0;
@@ -330,6 +336,7 @@ body {
   }
 
   .mobile-drawer {
+    display: flex;
     position: fixed;
     top: 0;
     right: 0;
@@ -340,7 +347,6 @@ body {
     border-left: var(--border-width) solid var(--border-color);
     box-shadow: -8px 0px 0px rgba(0,0,0,1);
     z-index: 50;
-    display: flex;
     flex-direction: column;
     padding: 2rem 1.5rem;
     gap: 1rem;
