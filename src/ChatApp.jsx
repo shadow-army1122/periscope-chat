@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { Send, Paperclip, Image as ImageIcon, FileText, Menu, X, LogOut, Settings, Mic } from 'lucide-react';
+import { Send, Paperclip, Image as ImageIcon, FileText, Menu, X, LogOut, Settings, Mic, Globe } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import './index.css';
@@ -21,6 +21,7 @@ function ChatApp() {
   const [files, setFiles] = useState([]);
   const [activeImageContext, setActiveImageContext] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isWebSearchEnabled, setIsWebSearchEnabled] = useState(false);
   
   const messagesEndRef = useRef(null);
 
@@ -167,7 +168,8 @@ function ChatApp() {
           message: currentInput,
           sessionId: currentSessionId,
           images: imagesArray,
-          documents: documentsArray
+          documents: documentsArray,
+          webSearchEnabled: isWebSearchEnabled
         })
       });
       
@@ -321,10 +323,19 @@ function ChatApp() {
           )}
 
           <div style={{ display: 'flex', gap: '1rem', width: '100%' }} className="input-wrapper">
-            <label className="brutalist-button" style={{ cursor: 'pointer', padding: '1rem', display: 'flex', justifyContent: 'center' }}>
+            <label className="brutalist-button" style={{ cursor: 'pointer', padding: '1rem', display: 'flex', justifyContent: 'center' }} title="Attach files">
               <Paperclip size={24} />
               <input type="file" multiple accept="image/*,.pdf,.doc,.docx,.txt" onChange={handleFileChange} style={{ display: 'none' }} />
             </label>
+            <button 
+              type="button" 
+              className={`brutalist-button ${isWebSearchEnabled ? 'primary' : ''}`} 
+              style={{ padding: '1rem', display: 'flex', justifyContent: 'center', transition: 'all 0.2s ease', backgroundColor: isWebSearchEnabled ? '#3b82f6' : '', borderColor: isWebSearchEnabled ? '#2563eb' : '', color: isWebSearchEnabled ? 'white' : '' }}
+              onClick={() => setIsWebSearchEnabled(!isWebSearchEnabled)}
+              title="Toggle Web Search"
+            >
+              <Globe size={24} />
+            </button>
             <input 
               type="text" 
               className="brutalist-input" 
